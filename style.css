@@ -14,7 +14,7 @@ input:focus {
   outline: none;
 }
 
-input {
+.additems {
   border: none;
   padding: 16px 10px 16px 0px;
   font-size: 24px;
@@ -47,3 +47,20 @@ input {
   transform: perspective(100px) rotateX(-3deg) translateY(3px);
   background: linear-gradient(to top, #ffffff 0%, #EFEFEF 100%);
 }
+
+
+
+.delete:after {
+  content: 'x';
+  font-size: 25px;
+}
+.delete {
+  border: none;
+  background-color: #F8F8F8;
+  color: #f24b4b;
+  float: right;
+  outline: none;
+  cursor: pointer;
+  
+}
+

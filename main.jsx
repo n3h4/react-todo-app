@@ -1,25 +1,17 @@
+
 class TodoApp extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { items: [], text: '' };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-
+    constructor() {
+        super();
+        this.state = { text: '', items: [] };
     }
-    render() {
-        return (
-            <div>
-                <h1 className="header">Todo-List</h1>
 
-                <form action="" onSubmit={this.handleSubmit}>
-                    <input placeholder="Add your list here" onChange={this.handleChange}
-                        value={this.state.text} />
-                </form>
+    handleDelete(itemToBeDeleted) {
 
-                <TodoList items={this.state.items}
-                />
-            </div>
-        );
+        // console.log(itemToBeDeleted);  
+        var newItems = this.state.items.filter((item) => {
+            return item != itemToBeDeleted
+        });
+        this.setState({ items: newItems });
     }
 
     handleChange(e) {
@@ -27,33 +19,59 @@ class TodoApp extends React.Component {
     }
 
     handleSubmit(e) {
-        e.preventDefault();
-        if (!this.state.text.length) {
-            return
-        }
-        const newItem = {
-            text: this.state.text,
-            id: Date.now()
-        };
-        this.setState(prevState => ({
-            items: prevState.items.concat(newItem),
-            text: ''
-        }));
-    }
-}
 
-class TodoList extends React.Component {
+        e.preventDefault();
+
+        var prevItem = { text: this.state.text };
+        var newItems = this.state.items.concat(prevItem);
+
+        this.setState({ text: '', items: newItems });
+
+    }
+
     render() {
         return (
             <div>
-                <ul  className="list">
-                    {this.props.items.map(item => (
-                        <li key={item.id}>{item.text} </li>
-                    ))}
-                </ul>
+                <h1 className="header">Todo-List</h1>
+
+                <form onSubmit={this.handleSubmit.bind(this)}>
+
+                    <input className="additems" placeholder="Add your list here" onChange={this.handleChange.bind(this)}
+                        value={this.state.text} />
+                </form>
+
+                <TodoList handleDelete={this.handleDelete.bind(this)} items={this.state.items}
+                />
             </div>
         );
     }
+
+}
+
+class TodoList extends React.Component {
+    constructor() {
+        super();
+        this.state = { done: false};
+    }
+    handleOnChange(){
+        var done = !this.state.done;
+        this.setState({done: done});
+    }
+    render() {
+        return (
+            <div>
+
+                <ul className="list">
+                    {this.props.items.map((item, index) => (
+                        <li key={index}><input type="checkbox" onChange={this.handleOnChange.bind(this)} checked={this.state.done}/>{item.text}
+                            <button className="delete" onClick={this.props.handleDelete.bind(this, item)}></button></li>
+                    ))}
+                </ul>
+
+            </div>
+        );
+    }
+
 
 }
 
